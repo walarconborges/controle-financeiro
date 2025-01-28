@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle Financeiro</title>
+</head>
+<body>
+<header>
+    <h1>Controle Financeiro</h1>
+</header>
+<form>
+    <div>
+    <h2>Remuneração</h2>
+    <label for="remuneracao">Remuneração:</label> 
+    <input type="text" id="remuneracao" name="remuneracao" step="0.01" placeholder="R$ 0,00">
+    <!--
+    <label for="remuneracao"> é um rótulo para o campo, ajudando na identificação e acessibilidade.
+    <input type="text"> é um campo de entrada de dados do tipo numérico.
+    id e name são identificadores para referência futura.
+    step="0.01" permite casas decimais.
+    placeholder é um texto sugestivo dentro do campo.
+    -->
+    </div>
+    <div>
+    <label for="data">Data:</label>
+    <input type="date" id="data" name="data">
+    </div>
+
+    <div id="cartoes-container">
+        <h2>Cartões de Crédito</h2>
+        <div class="cartao">
+            <input type="text" name="nomeCartao[]" placeholder="Nome do Cartão">
+            <input type="text" class="valorFatura" name="valorFatura[]" placeholder="R$ 0,00">
+            <input type="date" name="dataFechamento[]" placeholder="Data de Fechamento">
+            <input type="date" name="dataVencimento[]" placeholder="Data de Vencimento">
+        
+            <div class="parcelamentos">
+
+            </div>
+            <button type="button" class="adicionar-parcelamento">Adicionar Parcelamento</button>
+        </div>
+    </div>
+    <button type="button" id="adicionar-cartao">Adicionar Cartão</button>
+    
+    
+    
+    
+    
+    
+    
+    
+    <button type="submit">Adicionar</button>
+    <script src="index.js"></script>
+</form>
+
+</body>
+</html>
