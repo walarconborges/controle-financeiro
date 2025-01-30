@@ -48,9 +48,9 @@ document.addEventListener('click', function(e) {
         novoParcelamento.innerHTML = `
             <input type="text" name="parcelamento[]" placeholder="Parcelamento">
             <input type="number" name="parcelaAtual[]" placeholder="Parcela Atual">
-            <input type="number" name="totalParcelas[]" placeholder="Total de Parcelas">
+            <input type="number" name="totalParcelas[]" class="totalParcelas" placeholder="Total de Parcelas">
             <input type="text" class="valorParcela" name="valorParcela[]" placeholder="R$ 0,00">
-            <input type="text" class="valorTotalCompra" name="valorTotalCompra[]" placeholder="R$ 0,00">
+            <input type="text" class="valorTotalCompra" name="valorTotalCompra[]" placeholder="R$ 0,00" readonly>
         `;
         parcelamentosContainer.appendChild(novoParcelamento);
     }
@@ -76,5 +76,48 @@ document.addEventListener('input', function(e){
         e.target.classList.contains('valorParcela') ||
         e.target.classList.contains('valorTotalCompra')){
             formatarMoeda(e.target);
+    }
+});
+
+//para formatar moeda em número
+function formatarMoedaParaNumero(valor){
+    return parseFloat(valor.replace('R$ ', '').replace(/\./g,'').replace(',','.')) || 0;
+}
+
+//para formatar número em valor monetário
+function formatarNumeroParaMoeda(valor){
+    let valorFormatado = valor.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+    return 'R$' + valorFormatado;
+}
+
+//para calcular o valor total da compra
+document.addEventListener('input', function(e){
+    if(e.target.classList.contains('valorParcela') || e.target.closest('.parcelamento')) {
+        const parcelamentoDiv = e.target.closest('.parcelamento');
+        const valorParcelaCampo = parcelamentoDiv.querySelector('.valorParcela');
+        const totalParcelasCampo = parcelamentoDiv.querySelector('.totalParcelas');
+        const valorTotalCompraCampo = parcelamentoDiv.querySelector('.valorTotalCompra');
+
+        //converter valores dos campos
+        const valorParcela = formatarMoedaParaNumero(valorParcelaCampo.value);
+        const totalParcelas = parseInt(totalParcelasCampo.value) || 0;
+
+        //calcular valor total
+        if (valorParcela && totalParcelas){
+            const valorTotal = valorParcela * totalParcelas;
+            valorTotalCompraCampo.value = formatarNumeroParaMoeda(valorTotal);
+        } else {
+            valorTotalCompraCampo.value = 'R$ 0,00';
+        }
+    }
+});
+
+//evento de input aos campos de valor da parcela
+document.addEventListener('input', function(e){
+    if(e.target.classList.contains('valorParcela')){
+        formatarMoeda(e.target);  
+    }
+    if (e.target.classList.contains('valorParcela') || e.target.classList.contains('totalParcelas')){
+        //aqui já fazemos o cálculo no evento acima
     }
 });
